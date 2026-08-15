@@ -11,6 +11,14 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
 }
 
 .calculator {
@@ -20,6 +28,7 @@ body {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
     width: 340px;
     backdrop-filter: blur(10px);
+    flex-shrink: 0;
 }
 
 .display {
@@ -113,4 +122,108 @@ body {
 
 .zero {
     grid-column: span 2;
+}
+
+/* 계산 기록 패널 */
+.history-panel {
+    background-color: #ffffff;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    width: 280px;
+    flex-shrink: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.history-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: #212529;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.history-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+    transition: all 0.3s ease;
+    font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.history-item:hover {
+    background-color: #e9ecef;
+    border-color: #0d6efd;
+    color: #0d6efd;
+    transform: translateX(5px);
+}
+
+.history-empty {
+    text-align: center;
+    padding: 20px 10px;
+    color: #adb5bd;
+    font-size: 13px;
+}
+
+.history-clear {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    color: #dc3545;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+}
+
+.history-clear:hover {
+    background-color: #fff3cd;
+    border-color: #dc3545;
+    color: #bb2d3b;
+}
+
+/* 스크롤 스타일 */
+.history-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.history-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.history-panel::-webkit-scrollbar-thumb {
+    background: #0d6efd;
+    border-radius: 10px;
+}
+
+.history-panel::-webkit-scrollbar-thumb:hover {
+    background: #0b5ed7;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .calculator, .history-panel {
+        width: 100%;
+        max-width: 340px;
+    }
+    
+    .history-panel {
+        max-height: 300px;
+    }
 }
