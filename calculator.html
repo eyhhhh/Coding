@@ -7,33 +7,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="display" readonly>
+    <div class="container">
+        <div class="calculator">
+            <div class="display">
+                <input type="text" id="display" aria-label="계산 결과" value="0" readonly>
+            </div>
+            <div class="buttons">
+                <button class="btn clear" type="button" onclick="clearDisplay()">C</button>
+                <button class="btn clear" type="button" onclick="deleteLast()" aria-label="마지막 문자 삭제">←</button>
+                <button class="btn function" type="button" onclick="calculatePercent()">%</button>
+                <button class="btn operator" type="button" onclick="appendOperator('÷')">÷</button>
+
+                <button class="btn number" type="button" onclick="appendNumber('7')">7</button>
+                <button class="btn number" type="button" onclick="appendNumber('8')">8</button>
+                <button class="btn number" type="button" onclick="appendNumber('9')">9</button>
+                <button class="btn operator" type="button" onclick="appendOperator('×')">×</button>
+
+                <button class="btn number" type="button" onclick="appendNumber('4')">4</button>
+                <button class="btn number" type="button" onclick="appendNumber('5')">5</button>
+                <button class="btn number" type="button" onclick="appendNumber('6')">6</button>
+                <button class="btn operator" type="button" onclick="appendOperator('-')">-</button>
+
+                <button class="btn number" type="button" onclick="appendNumber('1')">1</button>
+                <button class="btn number" type="button" onclick="appendNumber('2')">2</button>
+                <button class="btn number" type="button" onclick="appendNumber('3')">3</button>
+                <button class="btn operator" type="button" onclick="appendOperator('+')">+</button>
+
+                <button class="btn function" type="button" onclick="toggleSign()">±</button>
+                <button class="btn number zero" type="button" onclick="appendNumber('0')">0</button>
+                <button class="btn number" type="button" onclick="appendNumber('.')">.</button>
+                <button class="btn equals" type="button" onclick="calculate()">=</button>
+            </div>
         </div>
-        <div class="buttons">
-            <button class="btn clear" onclick="clearDisplay()">C</button>
-            <button class="btn clear" onclick="deleteLast()">←</button>
-            <button class="btn operator" onclick="appendOperator('÷')">÷</button>
-            <button class="btn operator" onclick="appendOperator('×')">×</button>
-
-            <button class="btn number" onclick="appendNumber('7')">7</button>
-            <button class="btn number" onclick="appendNumber('8')">8</button>
-            <button class="btn number" onclick="appendNumber('9')">9</button>
-            <button class="btn operator" onclick="appendOperator('-')">-</button>
-
-            <button class="btn number" onclick="appendNumber('4')">4</button>
-            <button class="btn number" onclick="appendNumber('5')">5</button>
-            <button class="btn number" onclick="appendNumber('6')">6</button>
-            <button class="btn operator" onclick="appendOperator('+')">+</button>
-
-            <button class="btn number" onclick="appendNumber('1')">1</button>
-            <button class="btn number" onclick="appendNumber('2')">2</button>
-            <button class="btn number" onclick="appendNumber('3')">3</button>
-            <button class="btn equals" onclick="calculate()" rowspan="2">=</button>
-
-            <button class="btn number zero" onclick="appendNumber('0')">0</button>
-            <button class="btn number" onclick="appendNumber('.')">.</button>
+        
+        <!-- 계산 기록 영역 -->
+        <div class="history-panel" id="history">
+            <div class="history-empty">계산 기록이 없습니다</div>
         </div>
     </div>
 
