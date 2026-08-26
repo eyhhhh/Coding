@@ -120,6 +120,23 @@ function formatNumber(value) {
     return Number.parseFloat(value.toFixed(10)).toString();
 }
 
+async function copyResult() {
+    if (currentValue === 'Error') return;
+
+    try {
+        await navigator.clipboard.writeText(currentValue);
+        const copyButton = document.querySelector('.copy-result');
+        copyButton.textContent = '복사됨';
+        setTimeout(() => {
+            copyButton.textContent = '복사';
+        }, 1200);
+    } catch (error) {
+        display.select();
+        document.execCommand('copy');
+        display.blur();
+    }
+}
+
 function clearDisplay() {
     currentValue = '0';
     previousValue = '';
