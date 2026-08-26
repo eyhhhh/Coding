@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    background: radial-gradient(circle at top left, #d9f4ff 0, transparent 34%), linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
 }
@@ -113,7 +113,7 @@ body {
 .equals {
     background-color: #198754;
     color: #ffffff;
-    grid-column: span 2;
+    grid-column: auto;
 }
 
 .equals:hover {
@@ -122,6 +122,17 @@ body {
 
 .zero {
     grid-column: span 2;
+}
+
+.function {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffe69c;
+}
+
+.function:hover {
+    background-color: #ffecb5;
+    border-color: #ffda6a;
 }
 
 /* 계산 기록 패널 */
@@ -225,5 +236,19 @@ body {
     
     .history-panel {
         max-height: 300px;
+    }
+}
+
+@media (max-width: 380px) {
+    body {
+        padding: 12px;
+    }
+
+    .calculator {
+        padding: 18px;
+    }
+
+    .btn {
+        padding: 15px;
     }
 }

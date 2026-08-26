@@ -3,6 +3,8 @@ let currentValue = '0';
 let previousValue = '';
 let operator = null;
 let shouldResetDisplay = false;
+let lastOperator = null;
+let lastOperand = null;
 
 // 계산 기록 관련
 let history = [];
@@ -28,6 +30,10 @@ function appendNumber(num) {
 }
 
 function appendOperator(op) {
+    if (currentValue === 'Error') {
+        clearDisplay();
+    }
+
     if (operator !== null && !shouldResetDisplay) {
         calculate();
     }
@@ -37,7 +43,15 @@ function appendOperator(op) {
 }
 
 function calculate() {
-    if (operator === null || shouldResetDisplay) {
+    if (operator === null) {
+        if (lastOperator !== null && lastOperand !== null) {
+            previousValue = currentValue;
+            operator = lastOperator;
+            currentValue = lastOperand;
+        } else {
+            return;
+        }
+    } else if (shouldResetDisplay) {
         return;
     }
 
@@ -57,8 +71,7 @@ function calculate() {
             break;
         case '÷':
             if (current === 0) {
-                alert('0으로 나눌 수 없습니다!');
-                clearDisplay();
+                showError('0으로 나눌 수 없습니다');
                 return;
             }
             result = prev / current;
@@ -68,13 +81,43 @@ function calculate() {
     }
 
     // 계산 기록에 추가
-    const calculation = `${prev} ${operator} ${current} = ${result}`;
+    const calculation = `${formatNumber(prev)} ${operator} ${formatNumber(current)} = ${formatNumber(result)}`;
     addToHistory(calculation);
 
-    currentValue = result.toString();
+    lastOperator = operator;
+    lastOperand = current;
+    currentValue = formatNumber(result);
     operator = null;
     shouldResetDisplay = true;
     updateDisplay();
+}
+
+function toggleSign() {
+    if (currentValue === '0' || currentValue === 'Error') return;
+    currentValue = currentValue.startsWith('-') ? currentValue.slice(1) : `-${currentValue}`;
+    updateDisplay();
+}
+
+function calculatePercent() {
+    if (currentValue === 'Error') return;
+    currentValue = formatNumber(parseFloat(currentValue) / 100);
+    updateDisplay();
+}
+
+function showError(message) {
+    currentValue = 'Error';
+    previousValue = '';
+    operator = null;
+    shouldResetDisplay = true;
+    updateDisplay();
+    setTimeout(() => {
+        if (currentValue === 'Error') clearDisplay();
+    }, 1400);
+}
+
+function formatNumber(value) {
+    if (!Number.isFinite(value)) return 'Error';
+    return Number.parseFloat(value.toFixed(10)).toString();
 }
 
 function clearDisplay() {
@@ -82,10 +125,16 @@ function clearDisplay() {
     previousValue = '';
     operator = null;
     shouldResetDisplay = false;
+    lastOperator = null;
+    lastOperand = null;
     updateDisplay();
 }
 
 function deleteLast() {
+    if (shouldResetDisplay || currentValue === 'Error') {
+        clearDisplay();
+        return;
+    }
     if (currentValue.length > 1) {
         currentValue = currentValue.slice(0, -1);
     } else {
@@ -161,6 +210,19 @@ function loadHistoryFromStorage() {
     }
 }
 
+function handleKeyboard(event) {
+    const key = event.key;
+    if (/^[0-9.]$/.test(key)) appendNumber(key);
+    else if (['+', '-', '*', '/'].includes(key)) appendOperator(key === '*' ? '×' : key === '/' ? '÷' : key);
+    else if (key === 'Enter' || key === '=') calculate();
+    else if (key === 'Escape') clearDisplay();
+    else if (key === 'Backspace') deleteLast();
+    else if (key === '%') calculatePercent();
+    else return;
+    event.preventDefault();
+}
+
 // 초기 설정
+document.addEventListener('keydown', handleKeyboard);
 updateDisplay();
 loadHistoryFromStorage();
